@@ -18,9 +18,10 @@ except ImportError:
     sys.modules["imp"] = dummy_imp
 
 # --------------------------------------------------
-# Google Edge LiteRT
+# SmartRoadAI / Google Edge LiteRT
 # --------------------------------------------------
 from ai_edge_litert.interpreter import Interpreter
+print("SmartRoadAI - Edge AI Road Monitoring System")
 print("Using Google AI Edge LiteRT")
 
 # --------------------------------------------------
@@ -31,6 +32,7 @@ from picamera2 import Picamera2
 # --------------------------------------------------
 # CONFIG
 # --------------------------------------------------
+APP_NAME = "SmartRoadAI"
 MODEL_PATH = "best-int8.tflite"
 LOG_FILE = "pothole_events.csv"
 
@@ -91,7 +93,7 @@ if not os.path.exists(LOG_FILE):
 last_log_time = 0
 prev_frame_time = 0
 
-print("\nSystem Running\n")
+print(f"\n{APP_NAME} Running...\n")
 
 while True:
 
@@ -145,14 +147,18 @@ while True:
 
             x, y, w, h = det[0:4]
 
-            x_min = int((x - w/2) * w_img)
-            y_min = int((y - h/2) * h_img)
-            x_max = int((x + w/2) * w_img)
-            y_max = int((y + h/2) * h_img)
+            x_min = int((x - w / 2) * w_img)
+            y_min = int((y - h / 2) * h_img)
+            x_max = int((x + w / 2) * w_img)
+            y_max = int((y + h / 2) * h_img)
 
-            cv2.rectangle(frame, (x_min, y_min),
-                          (x_max, y_max),
-                          (0, 0, 255), 2)
+            cv2.rectangle(
+                frame,
+                (x_min, y_min),
+                (x_max, y_max),
+                (0, 0, 255),
+                2
+            )
 
     # -------------------------
     # LOGGING
@@ -171,12 +177,17 @@ while True:
     fps = 1 / (new_frame_time - prev_frame_time) if prev_frame_time else 0
     prev_frame_time = new_frame_time
 
-    cv2.putText(frame, f"FPS: {int(fps)}",
-                (10, 30),
-                cv2.FONT_HERSHEY_SIMPLEX,
-                0.8, (255,255,0), 2)
+    cv2.putText(
+        frame,
+        f"FPS: {int(fps)}",
+        (10, 30),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.8,
+        (255, 255, 0),
+        2
+    )
 
-    cv2.imshow("Pothole Detector - Picamera2", frame)
+    cv2.imshow("SmartRoadAI - Real-Time Road Monitoring", frame)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
