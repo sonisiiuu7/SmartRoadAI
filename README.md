@@ -16,13 +16,6 @@ https://smartroadai-qdln.onrender.com
 
 ---
 
-# 📸 Dashboard Preview
-
-<img width="100%" src="dashboard_preview.png" alt="SmartRoadAI Dashboard">
-
----
-
-
 # 🎯 Project Overview
 
 Road infrastructure monitoring is often performed manually, making it difficult to identify road defects efficiently and at scale.
