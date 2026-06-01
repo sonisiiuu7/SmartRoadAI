@@ -1,87 +1,133 @@
-Markdown
+# 🚀 SmartRoadAI – Edge AI Road Monitoring System
 
-# 🚗 Real-Time Pothole Detector (Raspberry Pi & Picamera2)
+SmartRoadAI is a real-time edge AI road monitoring system designed to detect potholes and road surface anomalies using computer vision on Raspberry Pi devices.
 
-A lightweight computer vision system designed to detect road potholes in real-time. This project uses a custom-trained, INT8-quantized YOLO model running via Google's `ai-edge-litert`. 
+The system leverages a custom INT8-quantized object detection model running through Google AI Edge LiteRT for low-latency inference, enabling deployment on resource-constrained edge hardware. SmartRoadAI supports both live camera feeds and recorded road footage, making it suitable for road inspection, infrastructure monitoring, and smart-city applications.
 
+---
 
+## ✨ Features
 
-It is specifically built for modern Raspberry Pi OS environments (Bullseye, Bookworm, or Debian Trixie) and natively utilizes the `Picamera2` library for high-performance hardware camera access.
+### Real-Time Edge Inference
 
-## ✨ Key Features
-* **Google AI Edge LiteRT:** Utilizes the newest runtime for fast, optimized inference on ARM architectures.
-* **Native Picamera2 Support:** Directly hooks into the Pi's `libcamera` system for low-latency video capture without the need for legacy camera workarounds.
-* **Event Logging:** Records the exact timestamp and confidence score of detected potholes to a `pothole_events.csv` file. Includes a cooldown timer to prevent spamming the log.
-* **Video Fallback:** Can process pre-recorded `.mp4` video files if a live camera is not available.
+* Runs directly on Raspberry Pi hardware.
+* Optimized using INT8 quantization for fast inference.
+* Low-latency object detection using Google AI Edge LiteRT.
 
-## 📁 Project Structure
-* `main.py`: The main Python script to run the detector.
-* `best-int8.tflite`: The INT8 quantized neural network model.
-* `pothole_events.csv`: The auto-generated log file of detected potholes.
-* `requirements.txt`: List of pip-installable dependencies.
+### Intelligent Road Monitoring
 
-## ⚙️ Installation & Setup
+* Detects potholes in real time.
+* Draws bounding boxes around detected road defects.
+* Displays confidence scores and live FPS metrics.
 
-### The `Picamera2` Rule
-`Picamera2` is deeply integrated into the Raspberry Pi OS and interacts directly with the hardware's `libcamera` stack. Because of this, **you cannot install it via pip**. If you try to run `pip install picamera2`, your project will break. 
+### Multi-Source Input
 
-Instead, we must create a virtual environment that is allowed to "borrow" the pre-installed `Picamera2` library directly from the Raspberry Pi's core system.
+* Live camera support through Picamera2.
+* Video-file processing for offline testing and evaluation.
 
-### 1. Clone the Repository
-Open your Raspberry Pi terminal and run:
+### Automated Event Logging
+
+* Records detection events with timestamps.
+* Stores confidence scores for later analysis.
+* Cooldown mechanism prevents duplicate event spam.
+
+### Lightweight Deployment
+
+* Designed for Raspberry Pi 4 and Raspberry Pi 5.
+* Works with modern Raspberry Pi OS releases.
+* Suitable for edge AI and IoT deployments.
+
+---
+
+## 🏗 System Architecture
+
+Road Camera Feed
+→ Frame Acquisition (Picamera2 / Video Input)
+→ Image Preprocessing
+→ INT8 Quantized Detection Model
+→ Pothole Detection
+→ Event Logging
+→ Real-Time Visualization
+
+---
+
+## 📂 Project Structure
+
+```text
+SmartRoadAI/
+├── main.py
+├── best-int8.tflite
+├── requirements.txt
+├── README.md
+└── logs/
+```
+
+---
+
+## 🛠 Technology Stack
+
+* Python
+* OpenCV
+* NumPy
+* Google AI Edge LiteRT
+* TensorFlow Lite (INT8 Quantized Model)
+* Raspberry Pi
+* Picamera2
+
+---
+
+## 🚀 Running the Project
+
 ```bash
-git clone [https://github.com/yourusername/pothole-detector.git](https://github.com/yourusername/pothole-detector.git)
-cd pothole-detector
-2. Create the Virtual Environment (Crucial Step)
-You must include the --system-site-packages flag. This is the magic command that grants your isolated environment access to the system's Picamera2 files.
-
-Bash
-
-python3 -m venv venv --system-site-packages
-3. Activate the Environment
-Bash
-
-source venv/bin/activate
-(You should see (venv) appear at the beginning of your terminal prompt).
-
-4. Install Requirements
-With the environment active, install the standard Python packages:
-
-Bash
-
-pip install -r requirements.txt
-(Note: Your requirements.txt should only contain opencv-python, numpy, and ai-edge-litert).
-
-🚀 Usage
-Make sure your virtual environment is active, then run the main script:
-
-Bash
-
 python main.py
-Operation Modes
-The terminal will prompt you to choose an input method:
+```
 
-Live Camera: Initializes the Pi Camera Module via Picamera2 (RGB888 format, 640x480 resolution).
+Select one of the available modes:
 
-Video File: Prompts you to enter the path to a video file (e.g., test_vid2.mp4).
+### Live Camera Mode
 
-Output
-Display: Shows the live feed with red bounding boxes drawn around detected potholes, along with confidence scores and an FPS meter.
+Uses Raspberry Pi Camera Module through Picamera2.
 
-CSV Logging: Generates pothole_events.csv in the root folder.
+### Video Analysis Mode
 
-Example CSV Output:
+Processes recorded road footage for testing and evaluation.
 
-Code snippet
+---
 
+## 📊 Example Output
+
+Detection events are stored in:
+
+```text
+pothole_events.csv
+```
+
+Example:
+
+```csv
 Timestamp,Confidence
 2026-02-18 14:30:05,0.85
 2026-02-18 14:30:15,0.72
-🛠️ Troubleshooting Picamera2
-If main.py crashes on startup when selecting Live Camera mode:
+```
 
-Check the Ribbon Cable: Ensure the camera cable is seated correctly in the Pi's CSI port with the silver contacts facing the HDMI ports.
+---
 
-Test the Camera Natively: Run libcamera-hello in your terminal. If this fails, your OS does not recognize the camera hardware, and you may need to check your /boot/firmware/config.txt file or update your system (sudo apt update && sudo apt upgrade).
+## 🔮 Future Improvements
 
-Verify Environment: Ensure you remembered to use the --system-site-packages flag in Step 2.
+* GPS-based pothole localization
+* Road quality severity estimation
+* Interactive monitoring dashboard
+* Cloud-based analytics
+* Smart-city integration
+* Automated maintenance reporting
+
+---
+
+## 🎯 Applications
+
+* Smart City Infrastructure
+* Road Maintenance Monitoring
+* Municipal Road Inspection
+* Transportation Analytics
+* Edge AI Research
+* Intelligent Infrastructure Systems
