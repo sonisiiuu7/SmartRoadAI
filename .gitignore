@@ -1,0 +1,10 @@
+venv/
+.env
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+pothole_events.csv
+*.log
+*.mp4
+*.docx
