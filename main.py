@@ -24,10 +24,7 @@ from ai_edge_litert.interpreter import Interpreter
 print("SmartRoadAI - Edge AI Road Monitoring System")
 print("Using Google AI Edge LiteRT")
 
-# --------------------------------------------------
-# Picamera2
-# --------------------------------------------------
-from picamera2 import Picamera2
+
 
 # --------------------------------------------------
 # CONFIG
@@ -52,21 +49,30 @@ choice = input("Enter 1 or 2: ").strip()
 
 video_mode = False
 
+
 if choice == "2":
     video_path = input("Enter video filename: ").strip()
+
     if not os.path.exists(video_path):
         print("File not found.")
         sys.exit()
+
     cap = cv2.VideoCapture(video_path)
     video_mode = True
+
 else:
+    from picamera2 import Picamera2
+
     picam2 = Picamera2()
+
     config = picam2.create_preview_configuration(
         main={"size": (CAM_WIDTH, CAM_HEIGHT), "format": "RGB888"}
     )
+
     picam2.configure(config)
     picam2.start()
     time.sleep(1)
+
 
 # --------------------------------------------------
 # LOAD MODEL (4 threads)
